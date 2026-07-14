@@ -175,7 +175,7 @@ REGISTRY=ghcr.io NAMESPACE=myuser make docker-build
 |----------|---------|-------------|
 | `VERSION` | latest git tag | Semver version tag |
 | `REGISTRY` | `docker.io` | Docker registry host |
-| `NAMESPACE` | `satrill` | Registry namespace/user |
+| `NAMESPACE` | `satriller` | Registry namespace/user |
 | `IMAGE` | `epochgate` | Image name |
 
 The pre-push hook automatically builds and scans the image when `Dockerfile` changes.
@@ -192,7 +192,7 @@ Uses [Gitea Actions](https://docs.gitea.com/usage/actions/overview).
 ```bash
 make docker-build    # builds image
 make docker-scan     # scans for CVEs
-docker push docker.io/satrill/epochgate:1.0.0
+docker push docker.io/satriller/epochgate:1.0.0
 ```
 
 **Release workflow:**

@@ -2,7 +2,7 @@
 
 VERSION    ?= $(shell git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-dev")
 REGISTRY   ?= docker.io
-NAMESPACE  ?= satrill
+NAMESPACE  ?= satriller
 IMAGE      ?= epochgate
 FULL_IMAGE ?= $(REGISTRY)/$(NAMESPACE)/$(IMAGE)
 
