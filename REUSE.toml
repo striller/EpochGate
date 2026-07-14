@@ -25,7 +25,7 @@ SPDX-FileCopyrightText = "2026 EpochGate"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = ["README.md", "LICENSE", "LICENSES/MIT.txt"]
+path = ["README.md", "SECURITY.md", "LICENSE", "LICENSES/MIT.txt"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 EpochGate"
 SPDX-License-Identifier = "MIT"
