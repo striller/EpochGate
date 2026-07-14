@@ -1,0 +1,38 @@
+#!/bin/sh
+set -e
+
+ALLOWED_LICENSES="MIT|BSD-2-Clause|BSD-3-Clause"
+
+echo "Checking dependency licenses with Trivy..."
+
+# Run trivy license scan and capture output
+OUTPUT=$(trivy fs --scanners license --format json . 2>/dev/null)
+
+# Extract all license names from the results
+LICENSES=$(echo "$OUTPUT" | jq -r '
+  [.Results[]?.Packages[]?.Licenses[]?.Name // empty] |
+  unique |
+  .[]
+' 2>/dev/null)
+
+if [ -z "$LICENSES" ]; then
+  echo "No licenses found (no external dependencies or licenses unresolvable)."
+  exit 0
+fi
+
+echo "Found licenses:"
+echo "$LICENSES"
+echo ""
+
+# Check for non-compliant licenses
+NON_COMPLIANT=$(echo "$LICENSES" | grep -Ev "^($ALLOWED_LICENSES)$" || true)
+
+if [ -n "$NON_COMPLIANT" ]; then
+  echo "ERROR: Non-compliant licenses detected:"
+  echo "$NON_COMPLIANT"
+  echo ""
+  echo "Allowed licenses: MIT, BSD-2-Clause, BSD-3-Clause"
+  exit 1
+fi
+
+echo "All dependency licenses are compliant."

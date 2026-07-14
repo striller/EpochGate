@@ -1,0 +1,50 @@
+#!/bin/sh
+set -e
+
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+
+echo "Running pre-commit checks..."
+
+STAGED_GO=$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$' || true)
+STAGED_DEPS=$(git diff --cached --name-only --diff-filter=ACM | grep -E 'go\.(mod|sum)$' || true)
+STAGED_ALL=$(git diff --cached --name-only --diff-filter=ACM || true)
+
+if [ -z "$STAGED_GO" ] && [ -z "$STAGED_DEPS" ] && [ -z "$STAGED_ALL" ]; then
+  echo "No files staged, skipping checks."
+  exit 0
+fi
+
+if [ -n "$STAGED_GO" ]; then
+  echo "Staged Go files:"
+  echo "$STAGED_GO"
+  echo ""
+
+  echo "=> go vet ./..."
+  if ! go vet ./...; then
+    echo ""
+    echo "ERROR: go vet failed. Fix errors before committing."
+    exit 1
+  fi
+
+  echo "=> go build ./..."
+  if ! go build ./...; then
+    echo ""
+    echo "ERROR: go build failed. Code does not compile."
+    exit 1
+  fi
+fi
+
+if [ -n "$STAGED_DEPS" ]; then
+  echo "Dependency files changed, checking licenses..."
+  .githooks/check-licenses
+fi
+
+echo "=> reuse lint"
+if ! reuse lint; then
+  echo ""
+  echo "ERROR: REUSE compliance check failed. Add copyright/license info to new files."
+  exit 1
+fi
+
+echo ""
+echo "All pre-commit checks passed."

@@ -1,0 +1,35 @@
+#!/bin/sh
+set -e
+
+echo "Running pre-push checks..."
+
+DOCKERFILE_CHANGED=$(git diff --name-only origin/main...HEAD -- Dockerfile .dockerignore 2>/dev/null || true)
+
+if [ -z "$DOCKERFILE_CHANGED" ]; then
+  echo "Dockerfile not changed, skipping image scan."
+  exit 0
+fi
+
+VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-dev")
+IMAGE="epochgate"
+
+echo "Dockerfile changed, building and scanning image (v${VERSION})..."
+echo ""
+
+echo "=> docker build"
+if ! docker build -t ${IMAGE}:${VERSION} -t ${IMAGE}:latest .; then
+  echo ""
+  echo "ERROR: Docker build failed."
+  exit 1
+fi
+
+echo ""
+echo "=> trivy image scan"
+if ! trivy image --severity HIGH,CRITICAL --exit-code 1 ${IMAGE}:${VERSION}; then
+  echo ""
+  echo "ERROR: Trivy found HIGH/CRITICAL vulnerabilities. Fix before pushing."
+  exit 1
+fi
+
+echo ""
+echo "All pre-push checks passed."

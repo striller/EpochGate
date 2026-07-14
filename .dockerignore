@@ -1,0 +1,32 @@
+# Version control
+.git/
+.gitignore
+.githooks/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Go build artifacts
+bin/
+*.test
+*.out
+*.prof
+coverage.out
+
+# Configuration (use env vars or mounts in production)
+.env
+.env.*
+!.env.example
+
+# Documentation
+README.md
+LICENSE
+LICENSES/
+REUSE.toml
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,37 @@
+version = 1
+
+[[annotations]]
+path = ["cmd/server/main.go", "cmd/server/server.go", "internal/config/config.go", "internal/proxy/proxy.go", "internal/router/router.go"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 EpochGate"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["cmd/server/server_test.go", "internal/config/config_test.go", "internal/proxy/proxy_test.go", "internal/router/router_test.go"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 EpochGate"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [".githooks/pre-commit", ".githooks/check-licenses", ".githooks/pre-push"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 EpochGate"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["configs/config.yaml", ".env.example", "Makefile"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 EpochGate"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["README.md", "LICENSE", "LICENSES/MIT.txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 EpochGate"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["go.mod", ".gitignore", ".dockerignore", "Dockerfile", ".woodpecker.yml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 EpochGate"
+SPDX-License-Identifier = "MIT"

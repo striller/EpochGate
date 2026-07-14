@@ -1,0 +1,15 @@
+# EpochGate - npm Package Age Gatekeeper
+# Environment variables take precedence over this file.
+# Alternatively, create a .env file in the project root.
+
+# Address to listen on (default: ":8080")
+LISTEN_PORT: ":8080"
+
+# Nexus repository proxy URL (default: "http://localhost:8081/repository/npm-proxy/")
+NEXUS_URL: "http://localhost:8081/repository/npm-proxy/"
+
+# Upstream npm registry to check package metadata (default: "https://registry.npmjs.org/")
+NPM_REGISTRY: "https://registry.npmjs.org/"
+
+# Minimum package age in days before allowing (default: 7)
+MIN_AGE_DAYS: 7
