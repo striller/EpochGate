@@ -13,7 +13,7 @@ If you discover a security vulnerability in EpochGate, please report it responsi
 
 **Do NOT open a public GitHub issue for security vulnerabilities.**
 
-Instead, please email: **security@striller.de**
+Instead, please use [GitHub's private vulnerability reporting](https://github.com/striller/EpochGate/security/advisories/new).
 
 Include the following in your report:
 
