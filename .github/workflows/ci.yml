@@ -73,8 +73,11 @@ jobs:
         with:
           images: satriller/epochgate
           tags: |
-            type=semver,pattern={{version}}
+            type=semver,pattern=v{{version}}
             type=raw,value=latest
+          annotations: |
+            org.opencontainers.image.description=Reverse proxy gatekeeper for npm - blocks young packages to prevent supply-chain attacks
+            org.opencontainers.image.title=EpochGate
 
       - name: Build and push
         uses: docker/build-push-action@v6
