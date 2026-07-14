@@ -89,7 +89,51 @@ jobs:
 
       - name: Update Docker Hub description
         run: |
-          README_JSON=$(cat README.md | jq -Rs .)
+          cat > /tmp/dockerhub.md << 'EOF'
+          # EpochGate
+
+          A reverse proxy gatekeeper for Nexus npm repositories that enforces a minimum package age policy. Packages younger than a configurable threshold are blocked, preventing supply-chain attacks via freshly published malicious packages.
+
+          ## Quick Start
+
+          ```bash
+          docker run -d \
+            -p 8080:8080 \
+            -e NEXUS_URL=http://nexus:8081/repository/npm-proxy/ \
+            -e MIN_AGE_DAYS=7 \
+            satriller/epochgate
+          ```
+
+          ## Configuration
+
+          | Variable | Default | Description |
+          |----------|---------|-------------|
+          | `LISTEN_PORT` | `:8080` | Address and port to listen on |
+          | `NEXUS_URL` | `http://localhost:8081/repository/npm-proxy/` | Nexus npm proxy repository URL |
+          | `NPM_REGISTRY` | `https://registry.npmjs.org/` | Upstream npm registry for metadata |
+          | `MIN_AGE_DAYS` | `7` | Minimum package age in days before allowing |
+
+          ## How It Works
+
+          ```
+          npm client → EpochGate → Nexus Registry → Upstream npm
+                            ↓
+                    Checks package age
+                    via registry.npmjs.org
+          ```
+
+          1. Client requests a package through EpochGate
+          2. EpochGate checks the package's last modified timestamp from the npm registry
+          3. If the package is younger than `MIN_AGE_DAYS`, the request is blocked with `403 Forbidden`
+          4. If the package passes, it is proxied to your Nexus repository
+          5. Results are cached in-memory for fast repeated requests
+
+          ## Links
+
+          - [GitHub Repository](https://github.com/striller/EpochGate)
+          - [Configuration Guide](https://github.com/striller/EpochGate/blob/main/README.md)
+          EOF
+          README_JSON=$(cat /tmp/dockerhub.md | jq -Rs .)
           TOKEN=$(curl -s https://hub.docker.com/v2/auth/token \
             -H 'Content-Type: application/json' \
             -d "{\"identifier\":\"${{ secrets.DOCKER_USERNAME }}\",\"secret\":\"${{ secrets.DOCKER_PASSWORD }}\"}" \
