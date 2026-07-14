@@ -21,7 +21,7 @@ npm client → EpochGate → Nexus Registry → Upstream npm
 
 ### Prerequisites
 
-- Go 1.22+
+- Go 1.26+
 - [Nexus Repository Manager](https://www.sonatype.com/products/nexus-repository) (npm proxy repository)
 - [Trivy](https://trivy.run/) (for license scanning in git hooks)
 - [jq](https://jqlang.github.io/jq/) (for license check output parsing)
