@@ -186,15 +186,14 @@ Uses [Gitea Actions](https://docs.gitea.com/usage/actions/overview).
 
 **Pipeline triggers:**
 - `push` to `main` → runs tests
-- `tag` (e.g. `v1.2.3`) → runs tests + builds + pushes
+- `tag` (e.g. `v1.2.3`) → tests + builds linux binaries + creates Gitea release
 
-**Required secrets** (set in repo settings → Actions → Secrets):
-- `DOCKER_USERNAME` — Gitea username
-- `DOCKER_PASSWORD` — Gitea access token
-
-**Optional variables** (set in repo settings → Actions → Variables):
-- `DOCKER_REGISTRY` — Registry host (default: `docker.io`)
-- `DOCKER_NAMESPACE` — Registry namespace (default: `satrill`)
+**Docker Hub publish** (manual, requires Docker):
+```bash
+make docker-build    # builds image
+make docker-scan     # scans for CVEs
+docker push docker.io/satrill/epochgate:1.0.0
+```
 
 **Release workflow:**
 ```bash
