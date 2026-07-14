@@ -30,7 +30,7 @@ npm client → EpochGate → Nexus Registry → Upstream npm
 
 ```bash
 # Clone the repository
-git clone https://github.com/EpochGate.git
+git clone git@github.com:striller/EpochGate.git
 cd EpochGate
 
 # Install git hooks
@@ -162,6 +162,9 @@ make docker-build
 # Build + scan for HIGH/CRITICAL CVEs
 make docker-scan
 
+# Push to Docker Hub + update repo description
+DOCKER_PASSWORD=<your-token> make docker-push
+
 # Manual version override
 VERSION=1.0.0 make docker-build
 
@@ -182,11 +185,11 @@ The pre-push hook automatically builds and scans the image when `Dockerfile` cha
 
 ## CI/CD
 
-Uses [Gitea Actions](https://docs.gitea.com/usage/actions/overview).
+Uses [GitHub Actions](https://docs.github.com/en/actions).
 
 **Pipeline triggers:**
 - `push` to `main` → runs tests
-- `tag` (e.g. `v1.2.3`) → tests + builds linux binaries + creates Gitea release
+- `tag` (e.g. `v1.2.3`) → tests + builds linux binaries + creates GitHub release
 
 **Docker Hub publish** (manual, requires Docker):
 ```bash
