@@ -164,21 +164,37 @@ make docker-scan
 
 # Manual version override
 VERSION=1.0.0 make docker-build
+
+# Custom registry
+REGISTRY=ghcr.io NAMESPACE=myuser make docker-build
 ```
+
+**Makefile variables:**
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `VERSION` | latest git tag | Semver version tag |
+| `REGISTRY` | `docker.io` | Docker registry host |
+| `NAMESPACE` | `satrill` | Registry namespace/user |
+| `IMAGE` | `epochgate` | Image name |
 
 The pre-push hook automatically builds and scans the image when `Dockerfile` changes.
 
 ## CI/CD
 
-Uses [Woodpecker CI](https://woodpecker-ci.org/) on Codeberg.
+Uses [Gitea Actions](https://docs.gitea.com/usage/actions/overview).
 
 **Pipeline triggers:**
 - `push` to `main` → runs tests
-- `tag` (e.g. `v1.2.3`) → runs tests + builds + pushes to `registry.codeberg.org`
+- `tag` (e.g. `v1.2.3`) → runs tests + builds + pushes
 
-**Required secrets** (set in Codeberg repo settings):
-- `docker_username` — Codeberg username
-- `docker_password` — Codeberg access token
+**Required secrets** (set in repo settings → Actions → Secrets):
+- `DOCKER_USERNAME` — Gitea username
+- `DOCKER_PASSWORD` — Gitea access token
+
+**Optional variables** (set in repo settings → Actions → Variables):
+- `DOCKER_REGISTRY` — Registry host (default: `docker.io`)
+- `DOCKER_NAMESPACE` — Registry namespace (default: `satrill`)
 
 **Release workflow:**
 ```bash

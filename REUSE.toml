@@ -31,7 +31,7 @@ SPDX-FileCopyrightText = "2026 EpochGate"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = ["go.mod", ".gitignore", ".dockerignore", "Dockerfile", ".woodpecker.yml"]
+path = ["go.mod", ".gitignore", ".dockerignore", "Dockerfile", ".gitea/workflows/ci.yml"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 EpochGate"
 SPDX-License-Identifier = "MIT"

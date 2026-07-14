@@ -1,7 +1,10 @@
 .PHONY: run build test test-cover lint reuse-lint clean setup-hooks check-licenses docker-build docker-scan docker-tag
 
-VERSION ?= $(shell git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-dev")
-IMAGE   ?= epochgate
+VERSION    ?= $(shell git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-dev")
+REGISTRY   ?= docker.io
+NAMESPACE  ?= satrill
+IMAGE      ?= epochgate
+FULL_IMAGE ?= $(REGISTRY)/$(NAMESPACE)/$(IMAGE)
 
 run:
 	go run ./cmd/server
@@ -29,14 +32,14 @@ check-licenses:
 	.githooks/check-licenses
 
 docker-build:
-	docker build -t $(IMAGE):$(VERSION) -t $(IMAGE):latest .
+	docker build -t $(FULL_IMAGE):$(VERSION) -t $(FULL_IMAGE):latest .
 
 docker-scan: docker-build
-	trivy image --severity HIGH,CRITICAL --exit-code 1 $(IMAGE):$(VERSION)
+	trivy image --severity HIGH,CRITICAL --exit-code 1 $(FULL_IMAGE):$(VERSION)
 
 docker-tag: docker-build
-	@echo "$(IMAGE):$(VERSION)"
-	@echo "$(IMAGE):latest"
+	@echo "$(FULL_IMAGE):$(VERSION)"
+	@echo "$(FULL_IMAGE):latest"
 
 clean:
 	rm -rf bin/
